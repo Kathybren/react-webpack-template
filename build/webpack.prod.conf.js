@@ -7,6 +7,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') //
 const prodConfig = {
   mode: 'production',
   output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].js'
   },
