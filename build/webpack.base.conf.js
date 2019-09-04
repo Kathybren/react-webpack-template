@@ -1,27 +1,31 @@
 const path = require('path')
 // const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const copyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const entry = require('../config/entry.js')
 function generateEntries() {
   const entries = {}
   entry.forEach(item => {
-    entries[item.outpath] = './src/'+ item.path
+    entries[item.outpath] = './src/pages/'+ item.path
   })
-  console.log(entries)
   return entries
 }
 
-
 const makePlugins = () => {
   const plugin = [
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new copyWebpackPlugin([{
+      from: path.resolve(__dirname, "../src/assets"),
+      to: './assets',
+      ignore: ['.*']
+  }]),
   ]
   entry.forEach(item => {
     plugin.push(
       new HtmlWebpackPlugin({
         title: item.title,
-        template: path.resolve(__dirname, '..', 'index.html'),
+        template: path.resolve(__dirname,'..','index.html'),
         filename: `${item.outpath}.html`,
         chunks: [item.outpath,'vendors'],
         minify: {

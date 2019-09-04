@@ -1,5 +1,6 @@
 const merge = require('webpack-merge')
 const commonConfig = require('./webpack.base.conf.js')
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
@@ -7,7 +8,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') //
 const prodConfig = {
   mode: 'production',
   output: {
-    publicPath: './', // js 引用的路径或者 CDN 地址
+    publicPath: '/', // js 引用的路径或者 CDN 地址
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].js'
   },
@@ -54,7 +55,8 @@ const prodConfig = {
       cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
       cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
       canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ]
 }
 
